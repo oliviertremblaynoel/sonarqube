@@ -1,0 +1,27 @@
+name: Gradle Build
+
+on:
+  workflow_dispatch: # Allows manual triggering of the workflow
+    push:
+    branches:
+      - master # Triggers on pushes to the 'main' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Uses a GitHub-hosted Ubuntu runner
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # Use Temurin JDK
+          java-version: '17'      # Specify Java version (adjust as needed)
+      - name: Run Gradle Build
+        run: ./gradlew build
+      - name: Upload Test Reports
+        if: always() # Ensure this runs even if the build fails
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test-Results
+          path: sonar-scanner-engine/build/reports/tests/

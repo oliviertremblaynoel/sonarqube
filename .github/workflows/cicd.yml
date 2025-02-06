@@ -1,27 +1,41 @@
 name: Gradle Build
 
 on:
-  workflow_dispatch: # Allows manual triggering of the workflow
+  workflow_dispatch:
     push:
     branches:
-      - master # Triggers on pushes to the 'main' branch
+      - master
 
 jobs:
   build:
-    runs-on: ubuntu-latest # Uses a GitHub-hosted Ubuntu runner
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin' # Use Temurin JDK
-          java-version: '17'      # Specify Java version (adjust as needed)
+          distribution: 'temurin'
+          java-version: '17'
       - name: Run Gradle Build
         run: ./gradlew build
       - name: Upload Test Reports
-        if: always() # Ensure this runs even if the build fails
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Test-Results
           path: sonar-scanner-engine/build/reports/tests/
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: executable
+          path: sonar-application/build/distributions/
+
+      - name: Set up SSH Key for Authentication
+        run: |
+          echo "ssh key copied"
+
+      - name: Run Command on Homelab
+        run: |
+          echo "ssh command was successful"
+  

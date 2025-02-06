@@ -111,4 +111,9 @@ public class ServerPluginRepository implements PluginRepository {
   public boolean hasPlugin(String key) {
     return pluginByKey.containsKey(key);
   }
+
+  @Override
+  public int pluginCount() {
+    return pluginByKey.size();
+  }
 }

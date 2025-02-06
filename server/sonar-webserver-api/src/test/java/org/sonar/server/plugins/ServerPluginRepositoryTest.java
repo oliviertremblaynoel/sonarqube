@@ -46,6 +46,7 @@ public class ServerPluginRepositoryTest {
 
     repository.addPlugins(Collections.singletonList(plugin1));
     repository.addPlugin(plugin2);
+    assertThat(repository.pluginCount()).isEqualTo(2);
     assertThat(repository.getPluginInfos()).containsOnly(plugin1.getPluginInfo(), plugin2.getPluginInfo());
     assertThat(repository.getPluginInstance("plugin1")).isEqualTo(plugin1.getInstance());
     assertThat(repository.getPluginInstances()).containsOnly(plugin1.getInstance(), plugin2.getInstance());

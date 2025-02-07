@@ -112,7 +112,6 @@ public class ServerPluginRepository implements PluginRepository {
     return pluginByKey.containsKey(key);
   }
 
-  @Override
   public int pluginCount() {
     return pluginByKey.size();
   }
